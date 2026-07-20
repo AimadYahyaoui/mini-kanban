@@ -7,6 +7,7 @@ export default function TaskDetails({task} : {task: Task}) {
           <h2 className="text-xl font-bold text-gray-800">
             {task.title} - {task.priority.toUpperCase()}
           </h2>
+          <button type="button" className=" px-5 border border-amber-500 bg-amber-100 rounded-2xl text-amber-600 cursor-pointer">Edit</button>
           
         </header>
 
