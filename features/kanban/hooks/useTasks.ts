@@ -42,9 +42,12 @@ const tasksMock: Task[] = [
 
 export function useTasks() {
     const [tasks, setTasks] = useState<Task[]>(tasksMock);
+    const [selectedTask, setSelectedTask] = useState<Task | null>(null);
    
     return {
         tasks,
-        setTasks
+        setTasks,
+        selectedTask,
+        setSelectedTask
     };
 }
