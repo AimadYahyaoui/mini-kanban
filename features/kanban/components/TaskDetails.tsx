@@ -2,7 +2,7 @@ import { Task } from "../types/tasks";
 
 export default function TaskDetails({task, onEdit} : {task: Task, onEdit() : void}) {
     return (
-        <article className="w-full h-full rounded-xl border border-gray-300 p-6">
+        <article className="w-full h-64 rounded-xl border border-gray-300 p-6">
         <header className="mb-4 border-b pb-3 flex justify-between">
           <h2 className="text-xl font-bold text-gray-800">
             {task.title} - {task.priority.toUpperCase()}
@@ -24,7 +24,7 @@ export default function TaskDetails({task, onEdit} : {task: Task, onEdit() : voi
           <p>
            <span className="font-semibold">Assigned to :</span>{" "}
             <span className=" px-3 py-1 text-sm font-medium">
-              {task.assigneeId}
+              {task.assignedId}
             </span>
           </p>
           <p>

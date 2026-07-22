@@ -4,6 +4,6 @@ export type Task = {
   description: string;
   status: "todo" | "in_progress" | "done";
   priority: "low" | "medium" | "high";
-  assigneeId: string | null;
+  assignedId: string;
   dueDate: string;
 };

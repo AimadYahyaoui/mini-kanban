@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Task } from "../types/tasks";
 
 const tasksMock: Task[] = [
@@ -8,7 +8,7 @@ const tasksMock: Task[] = [
         description: "Initialize Next.js app",
         status: "todo",
         priority: "high",
-        assigneeId: null,
+        assignedId: "",
         dueDate: "2026-07-10"
     },
     {
@@ -17,7 +17,7 @@ const tasksMock: Task[] = [
         description: "Build base UI structure",
         status: "in_progress",
         priority: "medium",
-        assigneeId: null,
+        assignedId: "",
         dueDate: "2026-07-12"
     },
     {
@@ -26,7 +26,7 @@ const tasksMock: Task[] = [
         description: "Resolve UI issues",
         status: "done",
         priority: "low",
-        assigneeId: null,
+        assignedId: "",
         dueDate: "2026-07-01"
     },
     {
@@ -35,7 +35,7 @@ const tasksMock: Task[] = [
         description: "Create reusable card UI",
         status: "todo",
         priority: "medium",
-        assigneeId: null,
+        assignedId: "",
         dueDate: "2026-07-15"
     }
 ]
@@ -43,11 +43,17 @@ const tasksMock: Task[] = [
 export function useTasks() {
     const [tasks, setTasks] = useState<Task[]>(tasksMock);
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-   
+    const update = async (task: Task) => {
+        await setTasks(prev => 
+            prev.map(t => t.id === task.id ? task : t)
+        )
+        setSelectedTask(task);
+    }
     return {
         tasks,
         setTasks,
         selectedTask,
-        setSelectedTask
+        setSelectedTask,
+        update
     };
 }

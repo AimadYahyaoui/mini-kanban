@@ -9,7 +9,7 @@ import { useState } from "react";
 export type Mode = 'create' | 'edit' | 'detail' | 'none';
 
 export default function Page() {
-    const { tasks, selectedTask, setSelectedTask } = useTasks();
+    const { tasks, selectedTask, setSelectedTask, update } = useTasks();
     const [mode, setMode] = useState<Mode>('none');
 
     const handleSelectTask = (task: Task) => {
@@ -17,24 +17,38 @@ export default function Page() {
         setMode('detail');
     }
 
+    const handleUpdateTask = async (task: Task) => {
+        await update(task);
+        setMode('detail');
+    }
+
+    const renderSidePanel = () => {
+        if (selectedTask) {
+            switch (mode) {
+                case "detail":
+                    return <TaskDetails task={selectedTask} onEdit={() => setMode('edit')} />
+                case 'edit':
+                    return <TaskEditForm task={selectedTask} onCancel={() => setMode('detail')} onSave={handleUpdateTask} />
+                case 'create':
+                    return <span>CREATE MODE</span>
+                default:
+                    return <></>;
+            }
+        }
+    }
     return (
-        <div className="flex flex-col w-full min-h-dvh">
+        <div className="flex flex-col w-full">
             <h1 className="text-7xl">KANBAN PROJECT</h1>
             <span>Number of tasks : {tasks.length}</span>
             <div className="flex w-full justify-evenly gap-2 px-2">
                 <div className="flex w-2/3">
                     <TaskBoard tasks={tasks} onSelect={handleSelectTask} />
                 </div>
-                <div className="flex w-1/3 pt-8">
-                    
-                    {(selectedTask && mode === 'detail') && (
-                        <TaskDetails task={selectedTask} onEdit={() => setMode('edit')} />
-                    )}
-
-                    {(selectedTask && mode === 'edit') && (
-                        <TaskEditForm task={selectedTask} />
-                    )}
-                </div>
+                {selectedTask && (
+                    <div className="flex w-1/3 pt-8">
+                        {renderSidePanel()}
+                    </div>
+                )}
             </div>
 
         </div>
