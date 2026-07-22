@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Task } from "../types/tasks";
+import { Task, TaskCreate } from "../types/tasks";
 
 const tasksMock: Task[] = [
     {
@@ -43,17 +43,26 @@ const tasksMock: Task[] = [
 export function useTasks() {
     const [tasks, setTasks] = useState<Task[]>(tasksMock);
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+    
     const update = async (task: Task) => {
         await setTasks(prev => 
             prev.map(t => t.id === task.id ? task : t)
         )
         setSelectedTask(task);
     }
+
+    const create = async (taskCreate: TaskCreate) => {
+        const task: Task = { id: crypto.randomUUID(), ...taskCreate};
+        await setTasks(prev => [...prev, task]);
+        setSelectedTask(task);
+    }
+
     return {
         tasks,
         setTasks,
         selectedTask,
         setSelectedTask,
-        update
+        update,
+        create
     };
 }

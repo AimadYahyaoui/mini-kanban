@@ -7,3 +7,5 @@ export type Task = {
   assignedId: string;
   dueDate: string;
 };
+
+export type TaskCreate = Omit<Task, "id">;
