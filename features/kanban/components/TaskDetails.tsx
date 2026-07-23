@@ -1,14 +1,14 @@
 import { Task } from "../types/tasks";
 
-export default function TaskDetails({task, onEdit} : {task: Task, onEdit() : void}) {
+export default function TaskDetails({task, onEdit, onDelete} : {task: Task, onEdit() : void, onDelete(id: string): void}) {
     return (
         <article className="w-full h-64 rounded-xl border border-gray-300 p-6">
         <header className="mb-4 border-b pb-3 flex justify-between">
           <h2 className="text-xl font-bold text-gray-800">
             {task.title} - {task.priority.toUpperCase()}
           </h2>
+          <button type="button" className=" px-5 border border-red-800 bg-red-100 rounded-2xl text-red-700 cursor-pointer" onClick={() => onDelete(task.id)}>Delete</button>
           <button type="button" className=" px-5 border border-amber-500 bg-amber-100 rounded-2xl text-amber-600 cursor-pointer" onClick={onEdit}>Edit</button>
-          
         </header>
 
         <div className="space-y-2 text-gray-600">

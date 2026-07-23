@@ -10,7 +10,7 @@ import { useState } from "react";
 export type Mode = 'create' | 'edit' | 'detail' | 'none';
 
 export default function Page() {
-    const { tasks, selectedTask, setSelectedTask, update, create } = useTasks();
+    const { tasks, selectedTask, setSelectedTask, updateTask, createTask, deleteTask } = useTasks();
     const [mode, setMode] = useState<Mode>('none');
 
     const handleSelectTask = (task: Task) => {
@@ -19,20 +19,25 @@ export default function Page() {
     }
 
     const handleUpdateTask = async (task: Task) => {
-        await update(task);
+        await updateTask(task);
         setMode('detail');
     }
 
     const handleCreateTask = async (task: TaskCreate) => {
-        await create(task);
+        await createTask(task);
         setMode("detail");
+    }
+
+    const handleDelteTask = async (id: string) => {
+        await deleteTask(id);
+        setMode('none');
     }
 
     const renderSidePanel = () => {
         switch (mode) {
             case "detail":
                 if (selectedTask) {
-                    return <TaskDetails task={selectedTask} onEdit={() => setMode('edit')} />
+                    return <TaskDetails task={selectedTask} onEdit={() => setMode('edit')} onDelete={handleDelteTask} />
                 }
             case 'edit':
                 if (selectedTask) {
